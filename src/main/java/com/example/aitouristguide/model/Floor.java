@@ -17,8 +17,8 @@ public class Floor {
     @Column(nullable = false)
     private int floorNumber;
 
-    @ManyToOne
-    @JoinColumn(name = "building_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "building_id", nullable = false)
     private Building building;
 
     @Column(columnDefinition = "TEXT")
