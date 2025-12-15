@@ -7,6 +7,8 @@ import com.example.aitouristguide.repository.FloorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class FloorService {
 
@@ -29,6 +31,11 @@ public class FloorService {
 
         floor.setBuilding(building);
         return floorRepository.save(floor);
+    }
+
+    // Get all floors for a building
+    public List<Floor> getFloorsByBuilding(Long buildingId) {
+        return floorRepository.findByBuildingIdOrderByFloorNumberAsc(buildingId);
     }
 
     //get floor by id

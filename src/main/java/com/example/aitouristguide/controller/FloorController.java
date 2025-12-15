@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RestMapping("/api/floors")
+@RequestMapping("api/floors")
 public class FloorController {
 
 
@@ -36,12 +36,13 @@ public class FloorController {
     @GetMapping("/{id}")
     public ResponseEntity<Floor> getFloorById(@PathVariable Long id) {
         Floor floor = floorService.getFloorById(id);
-        return ResponseEntity.ok(floors);
+        return ResponseEntity.ok(floor);
     }
 
     // get floor by id
     @GetMapping("/building/{buildingId}/number/{floorNumber}")
-    public ResponseEntity<Floor> getFloorByBuildingAndNumber(@PathVariable Long buildingId, @PathVariable int floorNumber) {
+    public ResponseEntity<Floor> getFloorByBuildingAndNumber(@PathVariable Long buildingId,
+                                                             @PathVariable int floorNumber) {
         Floor floor = floorService.getFloorByBuildingAndNumber(buildingId, floorNumber);
         return ResponseEntity.ok(floor);
     }

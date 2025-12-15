@@ -60,6 +60,6 @@ public class BuildingService {
 
     //search buildings by name
     public List<Building> searchBuildingByName(String name) {
-        return buildingRepository.findByNameContainingIgnoreCase(String name);
+        return buildingRepository.findByNameContainingIgnoreCase(name);
     }
 }
