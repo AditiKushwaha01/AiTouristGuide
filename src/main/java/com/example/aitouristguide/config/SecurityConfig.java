@@ -11,16 +11,22 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
+                // Disable CSRF completely
                 .csrf(csrf -> csrf.disable())
+
+                // Allow EVERYTHING (DEV ONLY)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/**").permitAll() // Allow all API endpoints for now
-                        .anyRequest().authenticated()
+                        .anyRequest().permitAll()
                 )
-                .formLogin(form -> form.disable()) // Disable form login if using API only
-                .httpBasic(httpBasic -> {});
+
+                // Disable all auth mechanisms
+                .httpBasic(httpBasic -> httpBasic.disable())
+                .formLogin(form -> form.disable());
+
         return http.build();
     }
 
@@ -29,3 +35,4 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 }
+

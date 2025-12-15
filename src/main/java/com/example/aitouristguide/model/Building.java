@@ -1,5 +1,6 @@
 package com.example.aitouristguide.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -21,6 +22,7 @@ public class Building {
         private String address;
 
         @OneToMany(mappedBy = "building", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+        @JsonIgnore  //helps avoid infinite loop
         private List<Floor> floors = new ArrayList<>();
 
         @ManyToOne(fetch = FetchType.LAZY)
