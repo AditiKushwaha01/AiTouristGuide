@@ -1,7 +1,10 @@
 package com.example.aitouristguide.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Data;
+
+import java.util.*;
 
 @Entity
 @Table(name = "admins")
@@ -19,5 +22,9 @@ public class Admin {
 
         @Column(nullable = false)
         private String email;
+
+        @OneToMany(mappedBy = "admin", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+        @JsonManagedReference("admin-buildings")
+        private List<Building> buildings = new ArrayList<>();
 }
 

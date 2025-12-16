@@ -21,8 +21,12 @@ public class FloorController {
     public ResponseEntity<Floor> createFloor(
             @PathVariable Long buildingId,
             @RequestBody Floor floor) {
-        Floor createdFloor = floorService.createFloor(buildingId, floor);
-        return ResponseEntity.ok(createdFloor);
+        try {
+            Floor createdFloor = floorService.createFloor(buildingId, floor);
+            return ResponseEntity.ok(createdFloor);
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().body(null);
+        }
     }
 
     // get all floors for a building
@@ -35,8 +39,12 @@ public class FloorController {
     //get floor by id
     @GetMapping("/{id}")
     public ResponseEntity<Floor> getFloorById(@PathVariable Long id) {
-        Floor floor = floorService.getFloorById(id);
-        return ResponseEntity.ok(floor);
+        try {
+            Floor floor = floorService.getFloorById(id);
+            return ResponseEntity.ok(floor);
+        } catch (RuntimeException e) {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     // get floor by id
@@ -44,6 +52,9 @@ public class FloorController {
     public ResponseEntity<Floor> getFloorByBuildingAndNumber(@PathVariable Long buildingId,
                                                              @PathVariable int floorNumber) {
         Floor floor = floorService.getFloorByBuildingAndNumber(buildingId, floorNumber);
+        if (floor == null) {
+            return ResponseEntity.notFound().build();
+        }
         return ResponseEntity.ok(floor);
     }
 
@@ -51,14 +62,22 @@ public class FloorController {
     @PutMapping("/{id}")
     public ResponseEntity<Floor> updateFloor (@PathVariable Long id,
                                               @RequestBody Floor floorDetails) {
-        Floor updatedFloor = floorService.updateFloor(id, floorDetails);
-        return ResponseEntity.ok(updatedFloor);
+        try {
+            Floor updatedFloor = floorService.updateFloor(id, floorDetails);
+            return ResponseEntity.ok(updatedFloor);
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().body(null);
+        }
     }
 
     //Delete floor
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteFloor(@PathVariable Long id) {
-        floorService.deleteFloor(id);
-        return ResponseEntity.noContent().build();
+        try {
+            floorService.deleteFloor(id);
+            return ResponseEntity.noContent().build();
+        } catch (RuntimeException e) {
+            return ResponseEntity.notFound().build();
+        }
     }
 }

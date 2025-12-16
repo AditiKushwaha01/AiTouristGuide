@@ -11,4 +11,5 @@ public interface FloorRepository extends JpaRepository<Floor, Long> {
     List <Floor> findByBuildingId (Long BuildingId);
     Floor findByBuildingIdAndFloorNumber(Long buildingId, int floorNumber);
     List<Floor> findByBuildingIdOrderByFloorNumberAsc(Long buildingId);
+    boolean existsByBuildingIdAndFloorNumber(Long buildingId, int floorNumber);
 }

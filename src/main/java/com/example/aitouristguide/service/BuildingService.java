@@ -24,6 +24,11 @@ public class BuildingService {
         Admin admin = adminRepository.findById(adminId)
                 .orElseThrow(() -> new RuntimeException("Admin not found"));
 
+        // Check if building name already exists for this admin
+        if (buildingRepository.existsByNameAndAdminId(building.getName(), adminId)) {
+            throw new RuntimeException("Building with name '" + building.getName() + "' already exists for this admin");
+        }
+
         building.setAdmin(admin);
         return buildingRepository.save(building);
     }
@@ -42,10 +47,12 @@ public class BuildingService {
     public Building updateBuilding(Long id, Building buildingDetails) {
         Building building = getBuildingById(id);
 
-        if(buildingDetails.getName() != null) {
+        if(buildingDetails.getName() != null &&
+                !buildingDetails.getName().equals(building.getName())) {
             building.setName(buildingDetails.getName());
         }
-        if(buildingDetails.getAddress() != null) {
+        if(buildingDetails.getAddress() != null &&
+                !buildingDetails.getAddress().equals(building.getAddress())) {
             building.setAddress(buildingDetails.getAddress());
         }
 

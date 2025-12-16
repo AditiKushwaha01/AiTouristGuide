@@ -1,6 +1,7 @@
 package com.example.aitouristguide.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -22,11 +23,12 @@ public class Building {
         private String address;
 
         @OneToMany(mappedBy = "building", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-        @JsonIgnore  //helps avoid infinite loop
+        @JsonManagedReference("building-floors")//helps avoid infinite loop
         private List<Floor> floors = new ArrayList<>();
 
         @ManyToOne(fetch = FetchType.LAZY)
         @JoinColumn(name = "admin_id", nullable = false)
+        @JsonBackReference("admin-buildings")
         private Admin admin;
 
         //Helper method to add floor

@@ -21,8 +21,12 @@ public class BuildingController {
     public ResponseEntity<Building> createBuilding (
             @PathVariable Long adminId,
             @RequestBody Building building) {
-        Building createdBuilding = buildingService.createBuilding(adminId, building);
-        return ResponseEntity.ok(createdBuilding);
+        try {
+            Building createdBuilding = buildingService.createBuilding(adminId, building);
+            return ResponseEntity.ok(createdBuilding);
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().body(null);
+        }
     }
 
     // Get all buildings for an admin
@@ -35,8 +39,12 @@ public class BuildingController {
     // Get building by ID
     @GetMapping("/{id}")
     public ResponseEntity<Building> getBuildingById(@PathVariable Long id) {
-        Building building = buildingService.getBuildingById(id);
-        return ResponseEntity.ok(building);
+        try {
+            Building building = buildingService.getBuildingById(id);
+            return ResponseEntity.ok(building);
+        } catch (RuntimeException e) {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     // Update building
@@ -44,15 +52,23 @@ public class BuildingController {
     public ResponseEntity<Building> updateBuilding(
             @PathVariable Long id,
             @RequestBody Building buildingDetails) {
-        Building updatedBuilding = buildingService.updateBuilding(id, buildingDetails);
-        return ResponseEntity.ok(updatedBuilding);
+        try {
+            Building updatedBuilding = buildingService.updateBuilding(id, buildingDetails);
+            return ResponseEntity.ok(updatedBuilding);
+        } catch (RuntimeException e) {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     // Delete building
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteBuilding(@PathVariable Long id) {
-        buildingService.deleteBuilding(id);
-        return ResponseEntity.noContent().build();
+        try {
+            buildingService.deleteBuilding(id);
+            return ResponseEntity.noContent().build();
+        } catch (RuntimeException e) {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     // Search buildings by name

@@ -1,6 +1,6 @@
 package com.example.aitouristguide.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -20,7 +20,7 @@ public class Floor {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "building_id", nullable = false)
-    @JsonIgnore
+    @JsonBackReference("building-floors")
     private Building building;
 
     @Column(columnDefinition = "TEXT")
