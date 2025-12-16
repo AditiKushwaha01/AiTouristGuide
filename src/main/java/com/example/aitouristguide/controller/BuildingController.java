@@ -1,5 +1,6 @@
 package com.example.aitouristguide.controller;
 
+import com.example.aitouristguide.dtos.BuildingResponse;
 import com.example.aitouristguide.model.Building;
 import com.example.aitouristguide.service.BuildingService;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -2,6 +2,7 @@ package com.example.aitouristguide.service;
 
 import com.example.aitouristguide.model.Admin;
 import com.example.aitouristguide.model.Building;
+import com.example.aitouristguide.model.Floor;
 import com.example.aitouristguide.repository.AdminRepository;
 import com.example.aitouristguide.repository.BuildingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,6 +63,14 @@ public class BuildingService {
     //delete building
     public void deleteBuilding(Long id) {
         Building building = getBuildingById(id);
+
+        // First delete all floors and their map data
+        if (building.getFloors() != null) {
+            for (Floor floor : building.getFloors()) {
+                // This will cascade delete map data, zones, paths
+            }
+        }
+
         buildingRepository.delete(building);
     }
 
